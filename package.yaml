@@ -1,0 +1,40 @@
+name:                language-js
+version:             0.1.0
+github:              "diasbruno/language-js"
+license:             BSD3
+license-file:        license.md
+author:              "Bruno Dias <dias.h.bruno@gmail.com>"
+maintainer:          "Bruno Dias <dias.h.bruno@gmail.com>"
+copyright:           "2018 Bruno Dias"
+
+extra-source-files:
+- readme.md
+- changelog.md
+
+# Metadata used when publishing your package
+synopsis:            javascript parser for es6 and es7.
+category:            Language
+
+# To avoid duplicated efforts in documentation and dealing with the
+# complications of embedding Haddock markup inside cabal files, it is
+# common to point users to the README.md file.
+description:         Please see the README on Github at <https://github.com/diasbruno/language-js#README.md>
+
+dependencies:
+- base >= 4.7 && < 5
+- parsec
+
+library:
+  source-dirs: src
+
+tests:
+  language-js-test:
+    main:                Spec.hs
+    source-dirs:         test
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - hspec
+    - language-js
