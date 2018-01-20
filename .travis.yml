@@ -1,0 +1,30 @@
+# following hledger travis configuration.
+
+sudo: false
+
+dist: trusty
+
+language: generic
+
+cache:
+  directories:
+    - $HOME/.stack
+    - $HOME/.local/bin/
+    - .stack-work/
+
+install:
+  - set -e
+
+  # stack
+  - mkdir -p ~/.local/bin
+  - export PATH=~/.local/bin:$PATH
+  - if [[ ! -x ~/.local/bin/stack ]]; then travis_retry curl -L https://www.stackage.org/stack/linux-x86_64 | tar xz --wildcards --strip-components=1 -C ~/.local/bin '*/stack'; chmod a+x ~/.local/bin/stack; fi
+  - stack --version
+
+  # GHC
+  - stack setup
+  - stack exec -- ghc --version
+
+script:
+  - stack build
+  - stack test

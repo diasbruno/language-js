@@ -1,4 +1,4 @@
-# language-js
+# language-js [![Build Status](https://travis-ci.org/diasbruno/language-js.svg?branch=master)](https://travis-ci.org/diasbruno/language-js)
 
 javascript parser for es6 and es7.
 
