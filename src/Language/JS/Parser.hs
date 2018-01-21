@@ -19,7 +19,15 @@ identB = P.try (LI <$> (do i <- identifier
                              _    -> return i)) P.<?> "[identifier]"
 
 -- | numbers
-numberB = LN <$> (P.many1 P.digit) P.<?> "[number-literal]"
+-- oct numbers are already covered by decimal.
+numberB = LN <$> (hexN <|> decN) P.<?> "[number-literal]"
+  where hexN = liftM2 (++) (P.try (P.string "0x")) (P.many1 (P.oneOf "0123456789abcdefABCDEF"))
+        decN = do
+          lead <- P.many1 P.digit
+          fraction <- liftM2 (:) (P.char '.') (P.many P.digit) <|> return ""
+          expo <- expoN
+          return (lead ++ fraction ++ expo)
+        expoN = liftM2 (:) (P.oneOf "eE") (P.many P.digit) <|> return ""
 
 -- | booleans
 boolB = P.try (boolA "true" <|> boolA "false") P.<?> "[boolean]"
