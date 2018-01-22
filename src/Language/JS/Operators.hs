@@ -64,4 +64,4 @@ table withComma exp' = [[ P.Postfix (UnaryUpdate    <$> keywordB "++" <*> pure F
              ]
 
 -- withComma = isLiteral (used when parsing arrays, objects and parenthesis expression)
-operationExp withComma exp' p = P.buildExpressionParser (table withComma exp') (lexeme p) P.<?> "[operations]"
+operationExpression withComma exp' p = P.buildExpressionParser (table withComma exp') (lexeme p) P.<?> "[operations]"
