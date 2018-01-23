@@ -51,6 +51,9 @@ testExpressions = describe "Parse literals:" $ do
     shouldBe (testExpression "[]")
       "Right (LA [])"
 
+    shouldBe (testExpression "[,]")
+      "Right (LA [Elision])"
+
     shouldBe (testExpression "[1,2]")
       "Right (LA [LN \"1\",LN \"2\"])"
 
@@ -62,6 +65,9 @@ testExpressions = describe "Parse literals:" $ do
 
     shouldBe (testExpression "[a,...[1, 2]]")
       "Right (LA [LI \"a\",Spread (LA [LN \"1\",LN \"2\"])])"
+
+    shouldBe (testExpression "[a,,b]")
+      "Right (LA [LI \"a\",Elision,LI \"b\"])"
 
   it "objects" $ do
     shouldBe (testExpression "{}")
