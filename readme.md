@@ -2,10 +2,7 @@
 
 javascript parser for es6 and es7.
 
-## todo
-
-- [] refactor.
-- [] transform ast into json and/or xml.
+NOTE: work in progress...
 
 ## references
 
