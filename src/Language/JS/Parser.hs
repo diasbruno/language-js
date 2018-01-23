@@ -52,12 +52,22 @@ nullIdent =
 stringLiteral =
   buildExpression LS '\"' withoutNewLineAllowed
   <|> buildExpression LS '\'' withoutNewLineAllowed
-  <|> buildExpression LTS '`' withNewLineAllowed
+  <|> LTS <$> (P.char '`' *> templateString "" [])
   P.<?> "[string-literal]"
   where
-    withNewLineAllowed e = P.many (P.satisfy (\c -> c /= '\n' && c /= e))
-    withoutNewLineAllowed e = P.many (P.satisfy (\c -> c /= e))
+    withoutNewLineAllowed e = P.many (P.satisfy (\c -> c /= '\n' && c /= e))
     buildExpression ctor wc p = ctor <$> P.try (P.between (P.char wc) (P.char wc) (p wc))
+
+-- | Parse template strings.
+templateString str ls = (do
+  t <- P.anyToken
+  case t of
+    '$' -> do
+      e <- TExpression <$> braces (expressionNonEmpty True)
+      let s' = if length str > 0 then [TString str, e] else [e]
+      templateString "" (ls ++ s')
+    '`' -> return (ls ++ (if length str > 0 then [TString str] else []))
+    _   -> templateString (str ++ [t]) ls) <|> return ls
 
 -- | Parse regular expression literal.
 regexLiteral =

@@ -45,7 +45,16 @@ testExpressions = describe "Parse literals:" $ do
 
   it "template string" $ do
     shouldBe (testExpression "`test`")
-      "Right (LTS \"test\")"
+      "Right (LTS [TString \"test\"])"
+
+    shouldBe (testExpression "`${\"a\"}`")
+      "Right (LTS [TExpression (LS \"a\")])"
+
+    shouldBe (testExpression "`test ${a + 1} test`")
+      "Right (LTS [TString \"test \",TExpression (Operation \"+\" (LI \"a\") (LN \"1\")),TString \" test\"])"
+
+    shouldBe (testExpression "`${a} test ${b}`")
+      "Right (LTS [TExpression (LI \"a\"),TString \" test \",TExpression (LI \"b\")])"
 
   it "arrays" $ do
     shouldBe (testExpression "[]")
