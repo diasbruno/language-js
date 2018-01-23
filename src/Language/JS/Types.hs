@@ -56,6 +56,7 @@ data Expression = -- literals
   | UnaryUpdate String IsPrefix Expression
   | Unary String Expression
   | Spread Expression
+  | Elision -- single comma
   | LA [Expression]
   | LO [ObjectProperty]
   | LP Expression

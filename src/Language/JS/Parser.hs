@@ -69,11 +69,20 @@ regexLiteral =
            (liftM2 (:) P.anyToken re)
   in RegExp <$> ((P.char '/') *> re) <*> P.many (P.oneOf "mgi")
 
+-- | Parse elision (aka ',' without a value on array).
+elision =
+  const Elision <$> keywordB ","
+  P.<?> "elision"
+
+-- | Parse many items on a array declaration.
+arrayItems ls =
+  (lexeme (elision <|> item) >>= \x -> arrayItems (ls ++ [x])) <|> return ls
+  where item = checkSpread Spread (expressionNonEmpty False) <* P.optional (P.char ',')
+
 -- | Parse array literal.
 arrayLiteral =
-  P.try (LA <$> brackets (commaSep (whiteSpaces *> item)))
+  P.try (LA <$> brackets (betweenSpaces (arrayItems [])))
   P.<?> "[array]"
-  where item = checkSpread Spread (expressionNonEmpty False)
 
 -- | key and/or value property pair.
 objectBinds = do
