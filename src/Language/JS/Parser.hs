@@ -22,9 +22,16 @@ identifier =
 -- | Parse numeric literal.
 -- Here we don't distinguish between kinds.
 numericLiteral =
-  LN <$> (hexN <|> decN)
+  LN <$> (binN <|> octN <|> hexN <|> decN)
   P.<?> "[number-literal]"
-  where hexN = liftM2 (++) (P.try (P.string "0x")) (P.many1 (P.oneOf "0123456789abcdefABCDEF"))
+  where prefix p = do
+          i <- P.char '0'
+          x <- P.oneOf p
+          return [i, x]
+        combine = liftM2 (++)
+        hexN = combine (P.try (prefix "xX")) (P.many1 (P.oneOf "0123456789abcdefABCDEF"))
+        octN = combine (P.try (prefix "oO")) (P.many1 (P.oneOf "01234567"))
+        binN = combine (P.try (prefix "bB")) (P.many1 (P.oneOf "01"))
         decN = do
           lead <- P.many1 P.digit
           fraction <- liftM2 (:) (P.char '.') (P.many P.digit) <|> return ""

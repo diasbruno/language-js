@@ -37,6 +37,18 @@ testExpressions = describe "Parse literals:" $ do
     shouldBe (testExpression "1")
       "Right (LN \"1\")"
 
+    shouldBe (testExpression "1.10")
+      "Right (LN \"1.10\")"
+
+    shouldBe (testExpression "0.10e3")
+      "Right (LN \"0.10e3\")"
+
+    shouldBe (testExpression "0x11")
+      "Right (LN \"0x11\")"
+
+    shouldBe (testExpression "0b11")
+      "Right (LN \"0b11\")"
+
   it "strings" $ do
     shouldBe (testExpression "\"test\"")
       "Right (LS \"test\")"
