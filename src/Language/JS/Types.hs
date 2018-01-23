@@ -44,13 +44,17 @@ data BindExpression = BindVar Expression (Maybe Expression)
                     | BindRest Expression
                     deriving (Show)
 
+data TemplateString = TString String
+                    | TExpression Expression
+                    deriving (Show)
+
 data Expression = -- literals
   LThis
   | LNull
   | LI String
   | LN String
   | LS String
-  | LTS String
+  | LTS [TemplateString] -- LS + Expression
   | LB Bool
   | RegExp String String
   | UnaryUpdate String IsPrefix Expression
