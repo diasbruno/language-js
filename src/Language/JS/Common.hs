@@ -42,13 +42,15 @@ keywordB = P.try . lexeme . P.string
 
 -- | reserved words
 reservedWords :: [String]
-reservedWords = ["function", "return", "var", "let", "const",
+reservedWords = ["async", "await", "yield", "delete", "void", "typeof",
+                 "instanceof", "new", "debugger",
+                 "var", "let", "const",
                  "switch", "case", "break", "default",
-                 "for", "while", "do", "in", "of",
+                 "try", "catch", "finally",
+                 "for", "while", "do", "in", "of", "continue",
                  "if", "else",
-                 "delete", "void", "typeof",
-                 "class", "extends", "staticn", "get", "set",
-                 "async",
-                 "import", "from", "export", "as",
-                 "instanceof"
+                 "with",
+                 "function", "return",
+                 "class", "extends", "static", "get", "set", "super",
+                 "import", "from", "export", "as"
                 ]
