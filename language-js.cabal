@@ -1,9 +1,9 @@
 cabal-version:      3.0
 name:               language-js
-version:            0.2.0
+version:            0.3.0
 
 synopsis:           javascript parser for es6 and es7.
-description:        javascript parser for es6 and es7.
+description:        a javascript parser for es6 and es7.
 
 bug-reports:        https://github.com/diasbruno/language-js/issues
 

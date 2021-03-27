@@ -6,3 +6,6 @@ build:
 
 tests:
 	cabal v2-test
+
+release:
+	cabal v2-haddock --haddock-for-hackage --enable-doc
