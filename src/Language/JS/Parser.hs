@@ -57,13 +57,26 @@ nullIdent =
 
 -- | Parse string literal.
 stringLiteral =
-  buildExpression LS '\"' withoutNewLineAllowed
-  <|> buildExpression LS '\'' withoutNewLineAllowed
+  buildExpression '"'
+  <|> buildExpression '\''
   <|> LTS <$> (P.char '`' *> templateString "" [])
   P.<?> "[string-literal]"
   where
-    withoutNewLineAllowed e = P.many (P.satisfy (\c -> c /= '\n' && c /= e))
-    buildExpression ctor wc p = ctor <$> P.try (P.between (P.char wc) (P.char wc) (p wc))
+    buildExpression wc = do
+      P.char wc
+      content <- P.many (escaped <|> P.noneOf [wc, '\n'])
+      P.char wc
+      return $ LS content
+    escaped = do
+      P.char '\\'
+      P.choice $ zipWith escapedChar codes replacements
+    escapedChar code replacement = do
+      P.char code
+      return replacement
+    codes        = ['b',  'n',  'f',  'r',  't',  '\\', '\"', '\'']
+    replacements = ['\b', '\n', '\f', '\r', '\t', '\\', '\"', '\'']
+
+
 
 -- | Parse template strings.
 templateString str ls = (do
