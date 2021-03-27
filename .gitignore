@@ -1,7 +1,8 @@
 .stack-work/
-language-js.cabal
 *~
 Gemfile
 Guardfile
 .#*
 *.lock
+dist-newstyle/
+cabal.project.local
