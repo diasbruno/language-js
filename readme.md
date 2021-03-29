@@ -1,4 +1,4 @@
-# language-js [![Build Status](https://travis-ci.org/diasbruno/language-js.svg?branch=master)](https://travis-ci.org/diasbruno/language-js)
+# language-js ![example workflow](https://github.com/diasbruno/language-js/actions/workflows/tests.yml/badge.svg)
 
 javascript parser for es6 and es7.
 
