@@ -20,7 +20,7 @@ extra-source-files:
 library
     default-language: Haskell2010
     build-depends:    base <5
-                    , parsec ==3.1.14.0
+                    , parsec >=3.1 && <3.2
     hs-source-dirs:   src
     exposed-modules:  Language.JS.Common
                     , Language.JS.Operators
